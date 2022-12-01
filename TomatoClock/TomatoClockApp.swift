@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+import GoogleSignIn
+import GoogleSignInSwift
+import Firebase
 @main
 struct TomatoClockApp: App {
     var body: some Scene {
