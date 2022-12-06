@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var loginStatus: Bool = true
+    // 取得環境中的登入控制器
+    @EnvironmentObject var loginModel: LoginViewModel
 
     var body: some View {
-        VStack {
-            if loginStatus {
-                HomeView()
-            } else {
-                LoginView()
+        NavigationStack {
+            VStack {
+                // 檢查使用者是否已登入，是的話就直接進入首頁
+                switch loginModel.state {
+                case .signedIn:
+                    HomeView()
+                        .navigationTitle("Home")
+                        .navigationBarTitleDisplayMode(.large)
+                case .signedOut:
+                    // 如果還沒登入就顯示登入頁面
+                    LoginView()
+                }
+                Button("Crash") {
+                    fatalError("Crash was triggered")
+                }
             }
         }
     }
@@ -24,5 +35,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(LoginViewModel())
     }
 }
